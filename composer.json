@@ -1,9 +1,9 @@
 {
-    "name":"thoom/enhance",
-    "description":"PHP 5.3 classes used to enhance a Silex-based website",
+    "name":"thoom/dbm",
+    "description":"PHP 5.3 classes that extend doctrine DBAL using an entity-manager relationship with hooks for Silex",
     "type":"library",
-    "keywords":["doctrine2", "silex"],
-    "homepage":"https://github.com/thoom/enhance",
+    "keywords":["doctrine2", "silex", "database"],
+    "homepage":"https://github.com/thoom/Dbm.git",
     "license":"MIT",
     "require":{
         "php":">=5.3.2",

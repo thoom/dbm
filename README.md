@@ -1,21 +1,21 @@
-Thoom Enhance
-=============
+Thoom Dbm
+=========
 
 Summary
 -------
 
 __NOTE: These classes are still in development and change frequently. Use with caution and at your own risk for now!__
 
-This is a collection of classes that are being developed to enhance using the Silex framework for building
-simple websites. It has some utility classes and some abstract database classes that can be extended to enhance the Doctrine
+This is a collection of database classes that are being developed to use the Silex framework for
+building simple websites. The database classes are built on top of the Doctrine
 DBAL support that is included with Silex.
 
-Thoom\\Silex\\DbServiceProvider
-----------------------------------
+Thoom\\Provider\\DbServiceProvider
+---------------------------------------
 
-The __DbServiceProvider__ implements the Silex\\ServiceProviderInterface. This provider also registers
-Silex\\Provider\\DoctrineServiceProvider so it doesn't need to be registered separately. In addition, this provider adds
-a Thoom\\DB\\ManagerFactory object to the DI container. This makes it possible to access managers without adding each manager
+The `DbServiceProvider` implements the `Silex\ServiceProviderInterface`. This provider also registers
+`Silex\Provider\DoctrineServiceProvider` so it doesn't need to be registered separately. In addition, this provider adds
+a `Thoom\Db\ManagerFactory` object to the DI container. This makes it possible to access managers without adding each manager
 to the Silex application.
 
 There is only one additional parameter that you need to pass in the register array:
@@ -26,7 +26,7 @@ There is only one additional parameter that you need to pass in the register arr
 
 To register the provider:
 
-    $app->register(new Thoom\Silex\DbServiceProvider(),
+    $app->register(new Thoom\Provider\DbServiceProvider(),
         array(
             'db.options' => array(
                 'host' => 'localhost',
@@ -182,7 +182,7 @@ Let's review these properties:
  * __table__: The name of the table the manager, um, manages. If this field is not populated, the manager will set it based on the class's name.
 
 
-To use with Silex, I recommend using the Thoom\\Silex\\DbServiceProvider. This will create an object reference to the
+To use with Silex, I recommend using the `Thoom\Provider\DbServiceProvider`. This will create an object reference to the
 ManagerFactory, which is explained in detail below. However, to use the manager generically in a Silex _controller_:
 
     $app->get('/user/{primary_key}', function($primary_key) use ($app)
@@ -234,7 +234,7 @@ two methods:
 
 #### Usage
 
-Using the Thoom\\Silex\\DbServiceProvider in a Silex _controller_:
+Using the `Thoom\Provider\DbServiceProvider` in a Silex _controller_:
 
     $app->get('/user/{primary_key}', function($primary_key) use ($app)
     {
@@ -250,38 +250,3 @@ To create an object manually:
 
 The second argument for the factory is the format that your Managers are named in a printf format. You only need to pass
 in the missing piece of the format in the _get_ and _fresh_ methods.
-
-
-Thoom\\Generator
-----------------
-
-These classes are static classes that generate various values that you may need in the an application. I frequently use
-the RandomString methods to build temporary passwords, and the Uuid class to create unique ids to entities that are put/posted
-to a collections url.
-
-### Usage
-
-To create a Uuid:
-
-    $uuid = Thoom\Generator\Uuid::v4();
-    //outputs something like: ef8dbbaf-681a-4329-b58c-262a6c2c1fb4
-
-
-To create a random alphanumeric string, lowercase only, 16 characters:
-
-    use Thoom\Generator\RandomString;
-
-    // .... code ... //
-
-    $string = RandomString::alnum(16, RandomString::ALPHANUM_LOWER);
-    //outputs something like: asb0z93dg91st73l
-
-
-To add custom characters (like a dash) to a random string:
-
-    use Thoom\Generator\RandomString;
-
-    // .... code ... //
-
-    $string = RandomString::user(16, array('-'), RandomString::ALPHANUM_LOWER);
-    //outputs something like: p2am-53s9xrzb63n
